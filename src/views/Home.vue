@@ -3,7 +3,6 @@
       :cycle="true"
       :show-arrows="false"
       :interval="16000"
-      @change="carouselChange"
     >
       <v-carousel-item
         v-for="(item,i) in items"
@@ -12,24 +11,20 @@
         transition="fade-transition"
       >
       <v-img :src="item.src" height="98%" width="99%">
-        <template v-slot:content>
-          <vue-typed-js :strings="item | cookTyped"	:loopCount="32" :attr="'placeholder'">
-            <h1 class="typing"></h1>
-          </vue-typed-js>
-        </template>
+        <word-typed :items="item" class="shici-word"></word-typed>
       </v-img>
-      </v-carousel-item>
+    </v-carousel-item>
   </v-carousel>
 </template>
 
 <script>
-import VueTypedJs from 'vue-typed-js';
+import wordTyped from './wordTyped.vue';
 const jinrishici = require('jinrishici');
 
 export default {
   name:"cheer-on",
   components: {
-    VueTypedJs
+    wordTyped
   },
   data() {
     return {
@@ -38,11 +33,6 @@ export default {
       total:1,
       items: [],
       jinrishiciData:{},
-    }
-  },
-  filters: {
-    cookTyped(item){
-      return [item.title, item.author, ...item.content]
     }
   },
   methods: {
@@ -113,13 +103,6 @@ export default {
         })
       })
     },
-    carouselChange(value){
-      let item = this.items[value];
-      // var typed = new Typed('#word', {
-      //   strings: [item.title, item.author, ...item.content],
-      //   typeSpeed: 30
-      // });
-    }
   },
   mounted() {
     this.getData();
@@ -149,6 +132,7 @@ export default {
   font-size 16px
   font-weight 700
   top 36%
+  left -10%
   position relative
   
 </style>
